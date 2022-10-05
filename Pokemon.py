@@ -1,5 +1,7 @@
+import random
+
 class Pokemon:
-    def __init__(self, especie, level=1, nome=None):
+    def __init__(self, especie, level=random.randint(1,200), nome=None):
         self.especie = especie
         self.level = level
 
@@ -24,6 +26,3 @@ class Pikachu(PokemonEletrico):
     tipo = 'eletricidade'
     def atacar(self, pokemon):
         print("{} lançou um raio do trocão em {}".format(self, pokemon ) )
-
-meu_pokemon_elentrico = PokemonEletrico('picachu')
-print(meu_pokemon_elentrico.atacar('boruto'))
