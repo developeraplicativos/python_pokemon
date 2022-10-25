@@ -4,11 +4,11 @@ import random
 
 NOMES = ['carlos', 'jessy', 'james', 'picauinku', 'miau', 'astarauvesk']
 
-POKEMON = [ Pokemon('Squarow'),Pokemon('chenchilachu'),Pokemon('pikachu'),Pokemon('rolinchu') ]
+POKEMON = [ Pokemon('Squarow'),Pokemon('chenchilachu'),Pokemon('pikachu'),Pokemon('rolinchu') ,Pokemon('conkuaporam') ,Pokemon('larala') ,Pokemon('pipitu') ]
 
 class Pessoa:
 
-    def __init__(self, nome=None, pokemons=[]):
+    def __init__(self, nome=None, pokemons=[], dinheiro=100):
         if nome:
             self.nome = nome
         else:
@@ -16,9 +16,16 @@ class Pessoa:
 
         self.pokemons = pokemons
 
+        self.dinheiro = dinheiro
+
     def __str__(self):
         return self.nome
 
+    def mostrar_dinheiro(self):
+        print('você possu {} em sua conta'.format(self.dinheiro))
+    def ganhar_dinheiro(self, quantidade):
+        self.dinheiro += quantidade
+        print('você ganhou $ {}'.format(quantidade))
     def mostrar_pokemons(self):
         if self.pokemons:
             for index,pokemon in enumerate(self.pokemons):
@@ -42,6 +49,8 @@ class Pessoa:
                 vitoria = seu_pokemon.atacar(pokemon_inimigo)
                 if vitoria:
                     print('{} ganhou a batalha'.format(self))
+                    self.ganhar_dinheiro(pokemon_inimigo.level * 100)
+                    self.mostrar_dinheiro()
                     break
                 vitoria_inimiga = pokemon_inimigo.atacar(seu_pokemon)
                 if vitoria_inimiga:
@@ -72,14 +81,35 @@ class Player(Pessoa):
             else:
                 print('este jogador não possue pokemon')
 
+    def explorar(self):
+        if random.random() <= 0.3:
+            pokemon = random.choice(POKEMON)
+            print('um pokemon selvagem apareceu {}'.format(pokemon))
+            escolha = input('deseja capturar ele? (y/n)')
+            if escolha == 'y':
+                if random.random() > 0.5:
+                    self.capturar(pokemon)
+                else:
+                    print('{} pokemon fugiu'.format(pokemon))
+            else:
+                print('ok, boa viagem')
+
+
+        else:
+            print('não deu em nada!')
+
 class Inimigo(Pessoa):
     tipo = 'inimigo'
 
-    def __init__(self,nome=None,pokemons=[]):
+    def __init__(self,nome=None,pokemons=None):
         if not pokemons:
+            pokemons_aleatorios = []
             for i in range(random.randint(1,6)):
-                pokemons.append(random.choice(POKEMON))
+                pokemons_aleatorios.append(random.choice(POKEMON))
 
-        super().__init__(nome=nome, pokemons=pokemons)
+            super().__init__(nome=nome, pokemons=pokemons_aleatorios)
+        else:
+            super().__init__(nome=nome, pokemons=pokemons)
+
 
 
